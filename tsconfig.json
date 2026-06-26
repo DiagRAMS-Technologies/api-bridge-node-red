@@ -11,12 +11,10 @@
     "strict": true,
     "declaration": true,
     "outDir": "dist",
-    "sourceMap": true
-  },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "rootDir": "src",
+    "sourceMap": true,
+    "types": [
+      "node"
+    ]
+  }
 }

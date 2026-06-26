@@ -26,7 +26,7 @@ function main(RED: NodeAPI) {
   ) {
     RED.nodes.createNode(this, config);
 
-    let token = null;
+    let token: string | undefined = undefined;
     const projectCode = config.projectCode;
     const organisationId = config.organisationId;
     const baseURL = config.baseURL;
@@ -37,7 +37,7 @@ function main(RED: NodeAPI) {
     this.on('input', (msg) => {
       (async () => {
         try {
-          if (!token) {
+          if (typeof token === 'undefined') {
             const request = {
               method: 'POST',
               headers: {
@@ -81,7 +81,7 @@ function main(RED: NodeAPI) {
           if (response.status === 401) {
             this.error('Unauthorized!', msg);
             this.status({ fill: 'red', shape: 'ring', text: 'token:invalid' });
-            token = null;
+            token = undefined;
             this.debug(JSON.stringify(request));
             return;
           }
