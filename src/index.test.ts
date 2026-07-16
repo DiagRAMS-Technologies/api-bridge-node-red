@@ -1,15 +1,15 @@
 import { type Node, type NodeDef, type NodeAPI } from 'node-red';
 import { jest, describe, beforeEach, test, expect } from '@jest/globals';
-import DiagRAMSBridge, { Properties } from './index.js';
+import DvGroupAPIBridge, { Properties } from './index.js';
 import { EventEmitter } from 'events';
 import nock from 'nock';
 
-describe('DiagRAMSBridge', () => {
+describe('DvGroupAPIBridge', () => {
   const PROPERTIES: Properties = {
     organisationId: 'abbab0b0-b0b0-b0b0-b0b0-abbacacacaca',
     projectCode: 'demo',
     baseURL: 'https://api.diagrams-technologies.com/v0',
-    diagrams: 'credentials_id',
+    dvgroup: 'credentials_id',
   };
   const RED = {
     nodes: {
@@ -54,12 +54,12 @@ describe('DiagRAMSBridge', () => {
       applicationId: 'abbacaca-b0b0-b0b0-b0b0-abbacacacaca',
       applicationSecret: 'this_is_a_secret',
     });
-    DiagRAMSBridge(RED as unknown as NodeAPI);
+    DvGroupAPIBridge(RED as unknown as NodeAPI);
 
-    const [[, diagRAMSBridgeNode]] = RED.nodes.registerType.mock.calls;
+    const [[, dvGroupAPIBridgeNode]] = RED.nodes.registerType.mock.calls;
     const emitter = spawnEmitter();
 
-    diagRAMSBridgeNode.apply(emitter as unknown as Node<object>, [
+    dvGroupAPIBridgeNode.apply(emitter as unknown as Node<object>, [
       PROPERTIES as unknown as NodeDef,
     ]);
 
@@ -200,7 +200,7 @@ describe('DiagRAMSBridge', () => {
     },
     {
       "baseURL": "https://api.diagrams-technologies.com/v0",
-      "diagrams": "credentials_id",
+      "dvgroup": "credentials_id",
       "organisationId": "abbab0b0-b0b0-b0b0-b0b0-abbacacacaca",
       "projectCode": "demo",
     },
@@ -210,7 +210,7 @@ describe('DiagRAMSBridge', () => {
     expect(RED.nodes.registerType.mock.calls).toMatchInlineSnapshot(`
 [
   [
-    "diagrams-bridge",
+    "dvgroup-api-bridge",
     [Function],
   ],
 ]
@@ -229,13 +229,13 @@ describe('DiagRAMSBridge', () => {
       applicationId: 'abbacaca-b0b0-b0b0-b0b0-abbacacacaca',
       applicationSecret: 'this_is_a_bad_secret',
     });
-    DiagRAMSBridge(RED as unknown as NodeAPI);
+    DvGroupAPIBridge(RED as unknown as NodeAPI);
 
-    const [[, diagRAMSBridgeNode]] = RED.nodes.registerType.mock.calls;
+    const [[, dvGroupAPIBridgeNode]] = RED.nodes.registerType.mock.calls;
     const emitter = spawnEmitter();
 
-    diagRAMSBridgeNode.apply(emitter as unknown as Node<object>, [
-      { ...PROPERTIES, diagrams: 'bad_credentials_id' } as unknown as NodeDef,
+    dvGroupAPIBridgeNode.apply(emitter as unknown as Node<object>, [
+      { ...PROPERTIES, dvgroup: 'bad_credentials_id' } as unknown as NodeDef,
     ]);
 
     const tokenStatusPromise = new Promise<void>((resolve) => {
@@ -391,7 +391,7 @@ describe('DiagRAMSBridge', () => {
     },
     {
       "baseURL": "https://api.diagrams-technologies.com/v0",
-      "diagrams": "bad_credentials_id",
+      "dvgroup": "bad_credentials_id",
       "organisationId": "abbab0b0-b0b0-b0b0-b0b0-abbacacacaca",
       "projectCode": "demo",
     },
@@ -401,7 +401,7 @@ describe('DiagRAMSBridge', () => {
     expect(RED.nodes.registerType.mock.calls).toMatchInlineSnapshot(`
 [
   [
-    "diagrams-bridge",
+    "dvgroup-api-bridge",
     [Function],
   ],
 ]
@@ -420,12 +420,12 @@ describe('DiagRAMSBridge', () => {
       applicationId: 'abbacaca-b0b0-b0b0-b0b0-abbacacacaca',
       applicationSecret: 'this_is_a_good_secret',
     });
-    DiagRAMSBridge(RED as unknown as NodeAPI);
+    DvGroupAPIBridge(RED as unknown as NodeAPI);
 
-    const [[, diagRAMSBridgeNode]] = RED.nodes.registerType.mock.calls;
+    const [[, dvGroupAPIBridgeNode]] = RED.nodes.registerType.mock.calls;
     const emitter = spawnEmitter();
 
-    diagRAMSBridgeNode.apply(emitter as unknown as Node<object>, [
+    dvGroupAPIBridgeNode.apply(emitter as unknown as Node<object>, [
       PROPERTIES as unknown as NodeDef,
     ]);
 
@@ -624,7 +624,7 @@ describe('DiagRAMSBridge', () => {
     },
     {
       "baseURL": "https://api.diagrams-technologies.com/v0",
-      "diagrams": "credentials_id",
+      "dvgroup": "credentials_id",
       "organisationId": "abbab0b0-b0b0-b0b0-b0b0-abbacacacaca",
       "projectCode": "demo",
     },
@@ -634,7 +634,7 @@ describe('DiagRAMSBridge', () => {
     expect(RED.nodes.registerType.mock.calls).toMatchInlineSnapshot(`
 [
   [
-    "diagrams-bridge",
+    "dvgroup-api-bridge",
     [Function],
   ],
 ]
@@ -653,12 +653,12 @@ describe('DiagRAMSBridge', () => {
       applicationId: 'abbacaca-b0b0-b0b0-b0b0-abbacacacaca',
       applicationSecret: 'this_is_a_secret',
     });
-    DiagRAMSBridge(RED as unknown as NodeAPI);
+    DvGroupAPIBridge(RED as unknown as NodeAPI);
 
-    const [[, diagRAMSBridgeNode]] = RED.nodes.registerType.mock.calls;
+    const [[, dvGroupAPIBridgeNode]] = RED.nodes.registerType.mock.calls;
     const emitter = spawnEmitter();
 
-    diagRAMSBridgeNode.apply(emitter as unknown as Node<object>, [
+    dvGroupAPIBridgeNode.apply(emitter as unknown as Node<object>, [
       PROPERTIES as unknown as NodeDef,
     ]);
 
@@ -714,12 +714,12 @@ describe('DiagRAMSBridge', () => {
       applicationId: 'abbacaca-b0b0-b0b0-b0b0-abbacacacaca',
       applicationSecret: 'this_is_a_secret',
     });
-    DiagRAMSBridge(RED as unknown as NodeAPI);
+    DvGroupAPIBridge(RED as unknown as NodeAPI);
 
-    const [[, diagRAMSBridgeNode]] = RED.nodes.registerType.mock.calls;
+    const [[, dvGroupAPIBridgeNode]] = RED.nodes.registerType.mock.calls;
     const emitter = spawnEmitter();
 
-    diagRAMSBridgeNode.apply(emitter as unknown as Node<object>, [
+    dvGroupAPIBridgeNode.apply(emitter as unknown as Node<object>, [
       PROPERTIES as unknown as NodeDef,
     ]);
 

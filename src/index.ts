@@ -1,5 +1,5 @@
 import { type Node, type NodeAPI, type NodeDef } from 'node-red';
-import { type Credentials } from './credentials.js';
+import { type APICredentials } from './credentials.js';
 import { printStackTrace } from 'yerror';
 
 export type Data = {
@@ -14,14 +14,14 @@ export type Properties = {
   projectCode: string;
   organisationId: string;
   baseURL: string;
-  diagrams: string;
+  dvgroup: string;
 };
 
-export type DiagRAMSBridgeNode = Node;
+export type DVGroupAPIBridgeNode = Node;
 
 function main(RED: NodeAPI) {
-  function DiagRAMSBridge(
-    this: DiagRAMSBridgeNode,
+  function DVGroupAPIBridge(
+    this: DVGroupAPIBridgeNode,
     config: NodeDef & Properties,
   ) {
     RED.nodes.createNode(this, config);
@@ -31,8 +31,8 @@ function main(RED: NodeAPI) {
     const organisationId = config.organisationId;
     const baseURL = config.baseURL;
     const credentials = RED.nodes.getCredentials(
-      config.diagrams,
-    ) as Credentials;
+      config.dvgroup,
+    ) as APICredentials;
 
     this.on('input', (msg) => {
       (async () => {
@@ -106,7 +106,7 @@ function main(RED: NodeAPI) {
     this.status({ fill: 'grey', shape: 'ring', text: 'token:pristine' });
   }
 
-  RED.nodes.registerType('diagrams-bridge', DiagRAMSBridge);
+  RED.nodes.registerType('dvgroup-api-bridge', DVGroupAPIBridge);
 }
 
 export default main;

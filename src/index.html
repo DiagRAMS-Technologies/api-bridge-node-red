@@ -1,14 +1,14 @@
 <script type="text/javascript">
-  RED.nodes.registerType('diagrams-bridge', {
+  RED.nodes.registerType('dvgroup-api-bridge', {
     category: 'function',
     color: '#7faedb',
-    icon: 'diagrams.svg',
+    icon: 'dvgroup.svg',
     labelStyle: {
       align: 'right',
     },
     defaults: {
-      name: { value: 'DiagRAMS API' },
-      diagrams: { type: 'diagrams-credentials', required: true },
+      name: { value: 'DVGroup API' },
+      dvgroup: { type: 'dvgroup-api-credentials', required: true },
       projectCode: {
         required: true,
         validate: RED.validators.regex(/[a-z0-9]+/),
@@ -28,21 +28,21 @@
     inputs: 1,
     outputs: 0,
     label: function () {
-      return this.name || 'diagrams-bridge';
+      return this.name || 'dvgroup-api-bridge';
     },
   });
 </script>
 
-<script type="text/html" data-template-name="diagrams-bridge">
+<script type="text/html" data-template-name="dvgroup-api-bridge">
   <div class="form-row">
     <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
     <input type="text" id="node-input-name" placeholder="Name" />
   </div>
   <div class="form-row">
-    <label for="node-input-diagrams"
-      ><i class="fa fa-user"></i> DiagRAMS Credentials</label
+    <label for="node-input-dvgroup"
+      ><i class="fa fa-user"></i> DVGroup API Credentials</label
     >
-    <input type="text" id="node-input-diagrams" />
+    <input type="text" id="node-input-dvgroup" />
   </div>
   <div class="form-row">
     <label for="node-input-projectCode"
@@ -62,6 +62,25 @@
   </div>
 </script>
 
-<script type="text/html" data-help-name="diagrams-bridge">
-  <p>A simple node that push data to the DiagRAMS API</p>
+<script type="text/html" data-help-name="dvgroup-api-bridge">
+  <p>A simple node that push data to the DVGroup API</p>
+  <h3>Inputs</h3>
+      <dl class="message-properties">
+          <dt>payload
+              <span class="property-type">string</span>
+          </dt>
+          <dd> the data to push.<br />
+            Format :<br />
+            <pre>
+{
+    "date": "2026-07-09T09:13:51.000Z",
+    "precision": 100,
+    "sensorId": "temp-1",
+    "value": 115.9,
+    "valueName": "t"
+}
+            </pre>
+          </dd>
+      </dl>
+
 </script>

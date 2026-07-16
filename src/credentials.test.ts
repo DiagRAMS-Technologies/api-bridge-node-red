@@ -1,9 +1,9 @@
 import { type Node, type NodeDef, type NodeAPI } from 'node-red';
 import { jest, describe, beforeEach, test, expect } from '@jest/globals';
-import DiagRAMSCredentials, { Credentials } from './credentials.js';
+import DvGroupAPICredentials, { type APICredentials } from './credentials.js';
 import { EventEmitter } from 'events';
 
-describe('DiagRAMSCredentials', () => {
+describe('DvGroupAPICredentials', () => {
   const RED = {
     nodes: {
       createNode: jest.fn<NodeAPI['nodes']['createNode']>(),
@@ -12,16 +12,19 @@ describe('DiagRAMSCredentials', () => {
   };
   const error = jest.fn<Node<object>['error']>();
   const debug = jest.fn<Node<object>['debug']>();
+  const log = jest.fn<Node<object>['log']>();
 
-  function spawnEmitter(credentials?: Credentials) {
+  function spawnEmitter(credentials?: APICredentials) {
     const emitter = new EventEmitter() as unknown as EventEmitter & {
       error: Node<object>['error'];
       debug: Node<object>['debug'];
+      log: Node<object>['log'];
       credentials?: Node<object>['credentials'];
     };
 
     emitter.error = error;
     emitter.debug = debug;
+    emitter.log = log;
     emitter.credentials = credentials;
 
     return emitter;
@@ -31,32 +34,34 @@ describe('DiagRAMSCredentials', () => {
     RED.nodes.createNode.mockClear();
     RED.nodes.registerType.mockClear();
     error.mockClear();
+    log.mockClear();
     debug.mockClear();
   });
 
   test('should work with credentials', () => {
-    DiagRAMSCredentials(RED as unknown as NodeAPI);
+    DvGroupAPICredentials(RED as unknown as NodeAPI);
 
-    const [[, diagRAMSCredentialsNode]] = RED.nodes.registerType.mock.calls;
+    const [[, dvGroupAPICredentialsNode]] = RED.nodes.registerType.mock.calls;
     const emitter = spawnEmitter({
       applicationId: 'abbacaca-b0b0-b0b0-b0b0-abbacacacaca',
       applicationSecret: 'this_is_a_secret',
     });
 
-    diagRAMSCredentialsNode.apply(emitter as unknown as Node<object>, [
+    dvGroupAPICredentialsNode.apply(emitter as unknown as Node<object>, [
       {
         name: 'My Credentials',
       } as unknown as NodeDef,
     ]);
 
-    expect(error.mock.calls).toMatchInlineSnapshot(`
+    expect(error.mock.calls).toMatchInlineSnapshot(`[]`);
+    expect(debug.mock.calls).toMatchInlineSnapshot(`[]`);
+    expect(log.mock.calls).toMatchInlineSnapshot(`
 [
   [
-    "Credentials ready!",
+    "API credentials ready!",
   ],
 ]
 `);
-    expect(debug.mock.calls).toMatchInlineSnapshot(`[]`);
     expect(RED.nodes.createNode.mock.calls).toMatchInlineSnapshot(`
 [
   [
@@ -71,10 +76,11 @@ describe('DiagRAMSCredentials', () => {
         "applicationSecret": "this_is_a_secret",
       },
       "debug": [MockFunction],
-      "error": [MockFunction] {
+      "error": [MockFunction],
+      "log": [MockFunction] {
         "calls": [
           [
-            "Credentials ready!",
+            "API credentials ready!",
           ],
         ],
         "results": [
@@ -96,7 +102,7 @@ describe('DiagRAMSCredentials', () => {
     expect(RED.nodes.registerType.mock.calls).toMatchInlineSnapshot(`
 [
   [
-    "diagrams-credentials",
+    "dvgroup-api-credentials",
     [Function],
     {
       "credentials": {
@@ -114,19 +120,19 @@ describe('DiagRAMSCredentials', () => {
   });
 
   test('should fail without credentials', () => {
-    DiagRAMSCredentials(RED as unknown as NodeAPI);
+    DvGroupAPICredentials(RED as unknown as NodeAPI);
 
-    const [[, diagRAMSCredentialsNode]] = RED.nodes.registerType.mock.calls;
+    const [[, dvGroupAPICredentialsNode]] = RED.nodes.registerType.mock.calls;
     const emitter = spawnEmitter();
 
-    diagRAMSCredentialsNode.apply(emitter as unknown as Node<object>, [
+    dvGroupAPICredentialsNode.apply(emitter as unknown as Node<object>, [
       {} as unknown as NodeDef,
     ]);
 
     expect(error.mock.calls).toMatchInlineSnapshot(`
 [
   [
-    "Bad credentials!",
+    "Bad API credentials!",
   ],
 ]
 `);
@@ -137,6 +143,7 @@ describe('DiagRAMSCredentials', () => {
   ],
 ]
 `);
+    expect(log.mock.calls).toMatchInlineSnapshot(`[]`);
     expect(RED.nodes.createNode.mock.calls).toMatchInlineSnapshot(`
 [
   [
@@ -161,7 +168,7 @@ describe('DiagRAMSCredentials', () => {
       "error": [MockFunction] {
         "calls": [
           [
-            "Bad credentials!",
+            "Bad API credentials!",
           ],
         ],
         "results": [
@@ -171,6 +178,7 @@ describe('DiagRAMSCredentials', () => {
           },
         ],
       },
+      "log": [MockFunction],
       Symbol(shapeMode): false,
       Symbol(kCapture): false,
     },
@@ -181,7 +189,7 @@ describe('DiagRAMSCredentials', () => {
     expect(RED.nodes.registerType.mock.calls).toMatchInlineSnapshot(`
 [
   [
-    "diagrams-credentials",
+    "dvgroup-api-credentials",
     [Function],
     {
       "credentials": {
