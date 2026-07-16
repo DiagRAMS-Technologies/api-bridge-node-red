@@ -1,6 +1,6 @@
 {
   "name": "@dvgroup/api-bridge-node-red",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Push data to the DVGroup API with Node-RED",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
