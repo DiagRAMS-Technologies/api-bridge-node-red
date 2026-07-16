@@ -8,6 +8,9 @@
   "engines": {
     "node": ">=20.20"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "node-red": {
     "nodes": {
       "dvgroup-api-bridge": "dist/index.js",
